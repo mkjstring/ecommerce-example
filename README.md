@@ -1,11 +1,9 @@
-# Getting Started with Create React App
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Firebase Config File
 
 Create a firebase.config.js to include the config provided from firebase.
-### EG)
+### Firebase Config Template:
     const config = {
     apiKey: "<apiKeyFromFirebase>",
     authDomain: "<authDomainFromFirebase>",
@@ -13,9 +11,8 @@ Create a firebase.config.js to include the config provided from firebase.
     storageBucket: "<bucketFromFireBase>",
     messagingSenderId: "<etc>",
     appId: "<etc>",
-    measurementId: "<etc>"
-  };
+    measurementId: "<etc>"};
 
-  export default config;
+    export default config;
 
 

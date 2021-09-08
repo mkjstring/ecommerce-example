@@ -4,14 +4,36 @@ import 'firebase/compat/auth';
 
 import config from './firebase.config'
 
+firebase.initializeApp(config);
 
-  firebase.initializeApp(config);
+export const createUserProfileDocument = async (userAuth, ...otherAttributes) => {
+    console.log('does userAuth exist')
+    if(!userAuth) return;
 
-  export const auth = firebase.auth();
-  export const firestore = firebase.firestore();
+    console.log('it does exist')
+    const userRef = firestore.doc(`users/${userAuth.uid}`);
 
-  const provider = new firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: 'select_account' });
-  export const signInWithGoogle = () => auth.signInWithPopup(provider);
+    const snapShot = await userRef.get();
+    
+    if(!snapShot.exists){
+        const {displayName, email} = userAuth;
+        const createdOn = new Date();
 
-  export default firebase;
+        try{
+            await userRef.set({displayName,email, createdOn, ...otherAttributes})
+        } catch(error){
+            console.log('error creating user: ', error.message);
+        }
+    }
+    return userRef;
+};
+
+export const auth = firebase.auth();
+export const firestore = firebase.firestore();
+
+const provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' });
+
+export const signInWithGoogle = () => auth.signInWithPopup(provider);
+
+export default firebase;
