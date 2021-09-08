@@ -6,7 +6,6 @@ import CustomButton from '../custom-button/custom-button.component';
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 import './sign-up.styles.scss'
-import { assertLiteral } from '@babel/types';
 
 class SignUp extends React.Component{
     constructor(){
@@ -17,23 +16,23 @@ class SignUp extends React.Component{
             email: '',
             password: '',
             confirmPassword: ''
-        }
+        };
     }
 
     handleSubmit = async event => {
         event.preventDefault();
         
-        const {displayName, email ,password, confirmPassword} = this.state;
+        const { displayName, email, password, confirmPassword } = this.state;
 
         if(password!==confirmPassword){
-            assertLiteral('passwords do not match')
+            alert('passwords do not match')
             return;
         }
 
         try{
             const {user} = await auth.createUserWithEmailAndPassword(email,password);
 
-            await createUserProfileDocument(user, {displayName});
+            await createUserProfileDocument(user, {displayName} );
 
             this.setState({
                 displayName: '',
@@ -51,7 +50,7 @@ class SignUp extends React.Component{
         const {name, value} = event.target;
 
         this.setState({[name]: value});
-    }
+    };
 
     render(){
         const {displayName, email ,password, confirmPassword} = this.state;
@@ -62,7 +61,7 @@ class SignUp extends React.Component{
                 <form className='sign-up-form' onSubmit={this.handleSubmit}>
                     <FormInput 
                         type='text' 
-                        name='displayName' 
+                        name='displayName'
                         value={displayName}
                         onChange={this.handleChange}
                         label='Display Name'
@@ -90,9 +89,8 @@ class SignUp extends React.Component{
                         required/>
                     <CustomButton type='submit'>SIGN UP</CustomButton>
                 </form>
-
             </div>
-        )
+        );
     }
 }
 
