@@ -7,10 +7,8 @@ import config from './firebase.config'
 firebase.initializeApp(config);
 
 export const createUserProfileDocument = async (userAuth, ...otherAttributes) => {
-    console.log('does userAuth exist')
     if(!userAuth) return;
 
-    console.log('it does exist')
     const userRef = firestore.doc(`users/${userAuth.uid}`);
 
     const snapShot = await userRef.get();
